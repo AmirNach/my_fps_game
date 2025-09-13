@@ -94,13 +94,27 @@ public class Weapon : MonoBehaviour
 
     IEnumerator ReloadAnimation(float Duration)
     {
+        if (Duration <= 0f) yield break;
+
         float Elapsed = 0f;
-        while (Elapsed < Duration)
+        float totalRot = 0f;
+        Quaternion startRot = WeaponPivot.transform.localRotation;
+
+        while (Elapsed < Duration && totalRot < 360f)
         {
             float RotationThisFrame = (360f / Duration) * Time.deltaTime;
-            WeaponPivot.transform.Rotate(RotationThisFrame, 0f, 0f, Space.Self); // Rotate pivot
+
+            if (totalRot + RotationThisFrame > 360f)
+                RotationThisFrame = 360f - totalRot;
+
+            WeaponPivot.transform.Rotate(RotationThisFrame, 0f, 0f, Space.Self);
+            totalRot += RotationThisFrame;
+
             Elapsed += Time.deltaTime;
             yield return null;
         }
+
+        WeaponPivot.transform.localRotation = startRot * Quaternion.Euler(360f, 0f, 0f);
     }
+
 }
