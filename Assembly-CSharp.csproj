@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{17C1EF39-73DD-19F0-5DF8-C4F48A9DC4EC}</ProjectGuid>
+    <ProjectGuid>{4C39DD83-FFE7-97C5-B4D2-042BAC4E5B7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\MedKitPU.cs" />
+    <Compile Include="Assets\Scripts\EnemyTextAlignment.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\GameSceneManager.cs" />
     <Compile Include="Assets\Scripts\EnemiesCounterUI.cs" />
