@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Player's movment script
 public class PlayerMovement : MonoBehaviour
 {
-    private float WalkSpeed = 15f;
-    private float RunSpeed = 22.5f;
-    private float CrouchSpeed = 7.5f;
+    private const float WalkSpeed = 15f;
+    private const float RunSpeed = 22.5f;
+    private const float CrouchSpeed = 7.5f;
 
     public CapsuleCollider PlayerCollider;
     public Camera PlayerCamera;
-    private float StandHeight = 2f;
-    private float CrouchHeight = 1f;
+    private const float StandHeight = 2f;
+    private const float CrouchHeight = 1f;
 
-    private float JumpForce = 10f; 
+    private const float JumpForce = 10f;
     private bool IsGrounded;
 
     private Rigidbody RB;
@@ -21,24 +22,22 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {
-        IsGrounded = true;
+        IsGrounded = true; // The player is touching the ground
     }
 
     void OnCollisionExit(Collision collision)
     {
-        IsGrounded = false;
+        IsGrounded = false; // The player left the ground
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        RB = GetComponent<Rigidbody>();
+        RB = GetComponent<Rigidbody>(); // Get Rigidbody reference
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Crouch Input
+        // Handle crouch input
         if (Input.GetButtonDown("Crouch") && IsGrounded)
             IsCrouching = true;
 
@@ -56,44 +55,34 @@ public class PlayerMovement : MonoBehaviour
             PlayerCollider.center = new Vector3(0, 0, 0);
         }
 
+        // Update camera position based on collider height
+        PlayerCamera.transform.localPosition = new Vector3(0, (PlayerCollider.height / 2) - 0.1f, 0);
 
-        // Camera Control
-        PlayerCamera.transform.localPosition = new Vector3(0, (PlayerCollider.height/2) - 0.1f, 0);
-
-        // Movement
+        // Movement input
         float MoveX = Input.GetAxis("Horizontal");
         float MoveZ = Input.GetAxis("Vertical");
-
 
         Vector3 Move = transform.right * MoveX + transform.forward * MoveZ;
 
         float MovementSpeed;
         if (IsCrouching)
         {
-            MovementSpeed = CrouchSpeed;
+            MovementSpeed = CrouchSpeed; // Slower when crouching
         }
         else
         {
-            if (Input.GetButton("Run"))
-            {
-                MovementSpeed = RunSpeed;
-            }
-            else
-            {
-                MovementSpeed = WalkSpeed;
-            }
+            MovementSpeed = Input.GetButton("Run") ? RunSpeed : WalkSpeed;
         }
 
-
         Vector3 Velocity = Move * MovementSpeed;
-        Velocity.y = RB.velocity.y;
+        Velocity.y = RB.velocity.y; // Keep vertical velocity
         RB.velocity = Velocity;
 
-        // Jump
+        // Jump input
         if (Input.GetButtonDown("Jump") && IsGrounded)
         {
             RB.velocity = new Vector3(RB.velocity.x, 0, RB.velocity.z);
-            RB.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);    
+            RB.AddForce(Vector3.up * JumpForce, ForceMode.Impulse); // Apply jump force
         }
     }
 }

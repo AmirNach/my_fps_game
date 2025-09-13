@@ -6,16 +6,17 @@ TagManager:
   tags:
   - Bullet
   - Enemy
+  - Terrain
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Terrain
+  - UIMinimapCanvas
+  - UIPlayeraAndStatsCanvas
   - 
   - 
   - 
